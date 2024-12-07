@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   let signatures = [
     { content: signatureImg, x: canvas_width - 434, y: 1520, width: 200, height: 100 },
-    { content: QrImg, x: canvas_width - 1900, y: 1442, width: 200, height: 200 },
+    // { content: QrImg, x: canvas_width - 1900, y: 1442, width: 200, height: 200 },
     { content: Stamp, x: canvas_width - 1663, y: 1442, width: 200, height: 200 },
   ];
 
