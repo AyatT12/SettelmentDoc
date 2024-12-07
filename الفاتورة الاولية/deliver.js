@@ -104,11 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ];
   
-  let signatures = [
+ let signatures = [
     { content: signatureImg, x: canvas_width - 600, y: 2900, width: 200, height: 100 },
-    { content: QrImg, x: canvas_width - 1900, y: 2880, width: 200, height: 200 },
-    { content: Stamp, x: canvas_width - 1663, y: 2880, width: 200, height: 200 },
+    { content: QrImg, x: canvas_width - 1980, y: 2880, width: 200, height: 200 },
+    { content: Stamp, x: canvas_width - 1700, y: 2880, width: 200, height: 200 },
   ];
+
 
   let TableItems = [
     // Service Column
