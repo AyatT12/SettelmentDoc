@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   var Stamp = new Image();
 
   signatureImg.src = "signature_01.png"; 
-  QrImg.src = "websiteQRCode_noFrame.png"; 
+  QrImg.src = "QRimage.svg"; 
   Stamp.src = "stamp.jpg"; 
 
   let texts = [
