@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const signatureImg = new Image();
   const qrImg = new Image();
   const stampImg = new Image();
-  signatureImg.src = "../images/signature_08.png";
+  signatureImg.src = "../images/signature_36.png";
   qrImg.src = "../images/verificationQR.png";
   stampImg.src = "../images/stamp.png";
 
