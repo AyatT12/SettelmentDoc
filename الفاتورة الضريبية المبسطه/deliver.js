@@ -64,7 +64,7 @@ const loadImageOnCanvas = (
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("myCanvas");
-  const imageUrl = "Kodi - Proforma Invoice-01.png";
+  const imageUrl = "Kodi - Simplified Tax Invoice-01.png";
 
   const signatureImg = new Image();
   const qrImg = new Image();

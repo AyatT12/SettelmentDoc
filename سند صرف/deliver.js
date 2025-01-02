@@ -1,111 +1,127 @@
-let canvas_width = 2481;
+const canvasWidth = 2481;
 
-let loadImageOnCanvasAndThenWriteText = (canvas, imageUrl, texts, textStyleOptions, signatures) => {
-  let ctx = canvas.getContext("2d");
+const calculateX = (ctx, text, x, align, defaultAlign) => {
+  const textWidth = ctx.measureText(text).width;
+  const alignment = align || defaultAlign;
 
-  let img = new Image();
+  if (alignment === "right") return x - textWidth;
+  if (alignment === "center") return x - textWidth / 2;
+  return x;
+};
+
+const drawText = (ctx, textItems, styleOptions) => {
+  ctx.font = `${styleOptions.fontWeight} ${styleOptions.fontSize}px ${styleOptions.fontFamily}`;
+  ctx.fillStyle = styleOptions.textColor;
+
+  textItems.forEach(({ content, x, y, align }) => {
+    const adjustedX = calculateX(
+      ctx,
+      content,
+      x,
+      align,
+      styleOptions.textAlign
+    );
+    ctx.fillText(content, adjustedX, y);
+  });
+};
+
+const drawImages = (ctx, images) => {
+  images.forEach(({ content, x, y, width, height }) => {
+    ctx.drawImage(content, x, y, width, height);
+  });
+};
+
+const loadImageOnCanvas = (
+  canvas,
+  imageUrl,
+  texts,
+  textStyle,
+  images
+) => {
+  const ctx = canvas.getContext("2d");
+  const img = new Image();
 
   img.onload = () => {
-    let loadedImageWidth = img.width;
-    let loadedImageHeight = img.height;
+    const { width: imgWidth, height: imgHeight } = img;
 
-    canvas.width = loadedImageWidth;
-    canvas.height = loadedImageHeight;
+    canvas.width = imgWidth;
+    canvas.height = imgHeight;
 
     ctx.drawImage(img, 0, 0);
 
-    texts.forEach(text => {
-      ctx.font = `${textStyleOptions.fontWeight} ${textStyleOptions.fontSize}px ${textStyleOptions.fontFamily}`;
-      ctx.fillStyle = textStyleOptions.textColor;
+    drawText(ctx, texts, textStyle);
+    drawImages(ctx, images);
 
-      let textWidth = ctx.measureText(text.content).width;
-
-      let x = text.x;
-
-      const align = text.align || textStyleOptions.textAlign;
-
-      if (align === "right") {
-        x -= textWidth; 
-      } else if (align === "center") {
-        x -= textWidth / 2; 
-      }
-
-      ctx.fillText(text.content, x, text.y);
-    });
-
-    signatures.forEach(signature => {
-      let signatureWidth = ctx.measureText(signature.content).width;
-
-      let x = signature.x;
-
-      if (textStyleOptions.textAlign === "right") {
-        x -= signatureWidth;
-      } else if (textStyleOptions.textAlign === "center") {
-        x -= signatureWidth / 2;
-      }
-
-      ctx.drawImage(signature.content, x, signature.y, signature.width, signature.height);
-      console.log(signature);    
-    });
-
-    let base64Link = canvas.toDataURL("image/png");
+    const base64Link = canvas.toDataURL("image/png");
     console.log(base64Link);
   };
 
   img.src = imageUrl;
-  console.log(img.src);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  let theCanvas = document.getElementById("myCanvas");
+  const canvas = document.getElementById("myCanvas");
+  const imageUrl = "Kodi - Exchange Voucher-01.png";
 
-  let imageUrl = "كدي سند صرف-01.png";
-  var signatureImg = new Image();
-  var signatureImg2 = new Image();
-  var QrImg = new Image();
-  var Stamp = new Image();
+  const signatureImg = new Image();
+  const signatureImg2 = new Image();
 
-  signatureImg.src = "signature_01.png"; 
-  signatureImg2.src = "signature_35.png"; 
-  QrImg.src = "QRimage.svg"; 
-  Stamp.src = "stamp.jpg"; 
+  const QrImg = new Image();
+  const Stamp = new Image();
+  signatureImg.src = "../images/signature_09.png";
+  signatureImg2.src = "../images/signature_09.png";
+
+  QrImg.src = "../images/verificationQR.png";
+  Stamp.src = "../images/stamp.png";
 
   let texts = [
-    { content: "الأحد ٨ جمادي الأولى ١٤٤٦", x: canvas_width - 210, y: 605, align: "right" },
-    { content: "11/10/2024", x: canvas_width - 232, y: 675, align: "right" },
-    { content: "Jumada I 8, 1446", x: canvas_width - 1525, y: 605, align: "left" },
-    { content: "11/10/2024", x: canvas_width - 1505, y: 675, align: "left" },
-    { content: "24-1301-4001105-000303", x: canvas_width - 2400, y: 605, align: "left" },
-    { content: "5,560000", x: canvas_width - 2400, y: 690, align: "left" },
-    { content: "82", x: canvas_width - 2010, y: 690, align: "left" },
-    { content: "مبارك ظافر مصعب الشهراني", x: canvas_width - 250, y: 795, align: "right" },
-    { content: "Mubarak Zafer Musab Al-Shahrani ", x: canvas_width - 2240, y: 795, align: "left" },
-    { content: "خمسة الآلف و خمس مئة و ستون  ريالا و اثنان و ثمانون هللة", x: canvas_width - 300, y: 900, align: "right" },
-    { content: "Five thousand five hundred and sixty riyals and eighty-two halalas", x: canvas_width - 2220, y: 970, align: "left" },
-    { content: "ماستر كارد ", x: canvas_width - 305, y: 1080, align: "right" },
-    { content: "Master Card", x: canvas_width - 2040, y: 1077, align: "left" },
-    { content: "دفعة تحت الحساب لعقد ايجار السيارة لعقد 26-1301-4001105-000303" , x: canvas_width - 305, y: 1185, align: "right" },
-    { content: "Payment on account for car lease contract for contract 24-1301-4001105-000303" , x: canvas_width - 2140, y: 1255, align: "left" },
-    { content: "ملاحظات ", x: canvas_width - 250, y: 1340, align: "right" },
-    { content: "عيسي هاني مبروك عزام", x: canvas_width - 220, y: 1560, align: "right" },
-    { content: "Issa Hani Mumrok Azzam", x: canvas_width - 690, y: 1605, align: "left" },
+    { content: "الأحد ٨ جمادي الأولى ١٤٤٦", x: canvasWidth - 210, y: 605, align: "right" },
+    { content: "11/10/2024", x: canvasWidth - 232, y: 675, align: "right" },
+    { content: "Jumada I 8, 1446", x: canvasWidth - 1525, y: 605, align: "left" },
+    { content: "11/10/2024", x: canvasWidth - 1505, y: 675, align: "left" },
+    { content: "24-1301-4001105-000303", x: canvasWidth - 2410, y: 605, align: "left" },
+    { content: "5,560000", x: canvasWidth - 2350, y: 690, align: "left" },
+    { content: "82", x: canvasWidth - 2040, y: 690, align: "left" },
+    { content: "مبارك ظافر مصعب الشهراني", x: canvasWidth - 200, y: 795, align: "right" },
+    { content: "Mubarak Zafer Musab Al-Shahrani ", x: canvasWidth - 2255, y: 795, align: "left" },
+    { content: "خمسة الآلف و خمس مئة و ستون  ريالا و اثنان و ثمانون هللة", x: canvasWidth - 295, y: 900, align: "right" },
+    { content: "Five thousand five hundred and sixty riyals and eighty-two halalas", x: canvasWidth - 2220, y: 970, align: "left" },
+    { content: "ماستر كارد ", x: canvasWidth - 305, y: 1075, align: "right" },
+    { content: "Master Card", x: canvasWidth - 2040, y: 1075, align: "left" },
+    { content: "دفعة تحت الحساب لعقد ايجار السيارة لعقد 26-1301-4001105-000303" , x: canvasWidth - 305, y: 1180, align: "right" },
+    { content: "Payment on account for car lease contract for contract 24-1301-4001105-000303" , x: canvasWidth - 2140, y: 1255, align: "left" },
+    { content: "ملاحظات ", x: canvasWidth - 250, y: 1335, align: "right" },
+    { content: "عيسي هاني مبروك عزام", x: canvasWidth - 220, y: 1560, align: "right" },
+    { content: "Issa Hani Mumrok Azzam", x: canvasWidth - 220, y: 1605, align: "right" },
 
   ];
   
-  let signatures = [
-    { content: signatureImg, x: canvas_width - 434, y: 1520, width: 200, height: 100 },
-    { content: signatureImg2, x: canvas_width - 100, y: 1650, width: 200, height: 100 },
-    { content: QrImg, x: canvas_width - 1900, y: 1442, width: 200, height: 200 },
-    { content: Stamp, x: canvas_width - 1663, y: 1442, width: 200, height: 200 },
+  let images = [
+    { content: signatureImg, x: canvasWidth - 940, y: 1525, width: 200, height: 100 },
+    { content: signatureImg2, x: canvasWidth - 590, y: 1655, width: 200, height: 100 },
+    { content: QrImg, x: canvasWidth - 2411, y: 1447, width: 200, height: 200 },
+    { content: Stamp, x: canvasWidth - 730, y: 1620, width: 200, height: 200 },
   ];
 
-  let textStyleOptions = {
-    fontWeight: "bold",
-    fontSize:40 ,
-    fontFamily: "serif",
-    textColor: "rgba(0, 0, 0)",
-    textAlign: "right" 
+  // Styles
+  const textStyle = {
+    fontWeight: "normal",
+    fontSize: 46,
+    fontFamily: "Sakkal Majalla Regular",
+    textColor: "#000000",
+    textAlign: "left",
   };
 
-  loadImageOnCanvasAndThenWriteText(theCanvas, imageUrl, texts, textStyleOptions, signatures);
+
+  document.fonts
+    .load(`normal ${textStyle.fontSize}px "${textStyle.fontFamily}"`)
+    .then(() => {
+      loadImageOnCanvas(
+        canvas,
+        imageUrl,
+        texts,
+        textStyle,
+        images
+      );
+    });
 });
