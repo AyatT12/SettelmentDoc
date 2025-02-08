@@ -2,10 +2,10 @@ async function CreateٍSettlement() {
   const accountReceiptNo = "123456";
   const canvas = document.getElementById("myCanvas");
   const imageArray = [
-    { f: File, url: "images/th.jpg" },
-    { f: File, url: "images/th.jpg" },
-    { f: File, url: "images/th.jpg" },
-    { f: File, url: "images/th.jpg" },
+    { f: File, url: "../images/th.jpg" },
+    { f: File, url: "../images/th.jpg" },
+    { f: File, url: "../images/th.jpg" },
+    { f: File, url: "../images/th.jpg" },
 
    ];
   const extractedUrls = imageArray.map(item => item.url);
@@ -20,11 +20,11 @@ async function CreateٍSettlement() {
   // الصور
     images: {
       background: "page14.png",
-      EMPLOYEE_SIGN: "images/Signature_08.png",
-      TENANT_SIGN: "images/Signature_08.png",
-      QR: "images/BananT.png",
-      STAMP: "images/stamp.png",
-      Authentication_STAMP: "images/ختم توثيق بنان.png",
+      EMPLOYEE_SIGN: "../images/Signature_08.png",
+      TENANT_SIGN: "../images/Signature_08.png",
+      QR: "../images/BananT.png",
+      STAMP: "../images/stamp.png",
+      Authentication_STAMP: "../images/ختم توثيق بنان.png",
       VisualImage1: extractedUrls[0],
       VisualImage2: extractedUrls[1],
       VisualImage3: extractedUrls[2],
