@@ -22,11 +22,11 @@ async function CreateٍSettlement() {
   // الصور
     images: {
       background: "page16.png",
-      EMPLOYEE_SIGN: "../../images/Signature_08.png",
-      TENANT_SIGN: "../../images/Signature_08.png",
-      QR: "../../images/BananT.png",
-      STAMP: "../../images/Stamp.png",
-      Authentication_STAMP: "../../images/ختم توثيق بنان.png",
+      EMPLOYEE_SIGN: "../images/Signature_08.png",
+      TENANT_SIGN: "../images/Signature_08.png",
+      QR: "../images/BananT.png",
+      STAMP: "../images/stamp.png",
+      Authentication_STAMP: "../images/ختم توثيق بنان.png",
       // 
       TechnicalImage : "Frame 2608609.png",
       VisualImage1: extractedUrls[0],
