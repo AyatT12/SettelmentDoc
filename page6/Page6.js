@@ -1,6 +1,15 @@
 async function CreateٍSettlement() {
   const accountReceiptNo = "123456";
   const canvas = document.getElementById("myCanvas");
+  const imageArray = [
+    { f: File, url: "th.jpg" },
+    { f: File, url: "th.jpg" },
+    { f: File, url: "th.jpg" },
+    { f: File, url: "th.jpg" },
+    { f: File, url: "th.jpg" },
+    { f: File, url: "th.jpg" },
+   ];
+   const extractedUrls = imageArray.map(item => item.url);
 
   const dynamicData = {
   NUMBER: "2490667684810001",
@@ -20,12 +29,12 @@ async function CreateٍSettlement() {
       Authentication_STAMP: "../../images/ختم توثيق بنان.png",
       // 
       TechnicalImage : "Frame 2608609.png",
-      VisualImage1: "th.jpg",
-      VisualImage2: "th.jpg",
-      VisualImage3: "th.jpg",
-      VisualImage4: "th.jpg",
-      VisualImage5: "th.jpg",
-      VisualImage6: "th.jpg",
+      VisualImage1: extractedUrls[0],
+      VisualImage2: extractedUrls[1],
+      VisualImage3: extractedUrls[2],
+      VisualImage4: extractedUrls[3],
+      VisualImage5: extractedUrls[4],
+      VisualImage6: extractedUrls[5],
 
     },
   };
